@@ -17,15 +17,20 @@ args = parser.parse_args()
 files = os.listdir(args.path)
 files.sort(key=lambda x: os.path.getsize(os.path.join(args.path, x)))
 
-def file_to_array():
+def ext_checker():
 	with open("filename_extensions.txt", 'r') as f:
 		lines = f.read().splitlines()
 		for l in lines:
 			if l == args.extension:
-				print('Found extension')
+				console.log(l)
+				console.log('Found extension')
+				time.sleep(1)
+				extFileSorter()
 				break
-			else:
-				continue
+		if l != args.extension:
+			console.print("[red bold]The", args.extension, "[red bold]Extension does not exist. Closing program...")
+			quit()
+				
 
 def extFileSorter():
 	index = 1;
@@ -41,16 +46,17 @@ def extFileSorter():
 			continue;
 		elif size < 1024 * 1024: #If size < 1MB
 			size_kb = size / 1024
-			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB')
+			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
 			index += 1
 		elif size < 1024 * 1024 * 1024:
 			size_mb = size /  (1024 * 1024)
-			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB')
+			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB', '\n')
 			index += 1
 		else:
 			size_gb = size / (1024 * 1024 * 1024)
-			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB')
+			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB', '\n')
 			index += 1
+	console.print("[green bold]Done sorting :smile:")
 
 def fileSorter():
 	index = 1;
@@ -65,21 +71,19 @@ def fileSorter():
 			continue;
 		elif size < 1024 * 1024: #If size < 1MB
 			size_kb = size / 1024
-			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB')
+			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
 			index += 1
 		elif size < 1024 * 1024 * 1024:
 			size_mb = size /  (1024 * 1024)
-			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB')
+			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB', '\n')
 			index += 1
 		else:
 			size_gb = size / (1024 * 1024 * 1024)
-			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB')
+			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB', '\n')
 			index += 1
+	console.print("[green bold]Done sorting :smile:")
 
-# if args.extension is None:
-# 	fileSorter()
-# else:
-# 	extFileSorter()
-
-file_to_array()
-console.print("[green bold]Done sorting :smile:")
+if args.extension is None:
+	fileSorter()
+else:
+	ext_checker()
