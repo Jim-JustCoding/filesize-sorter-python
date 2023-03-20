@@ -1,6 +1,8 @@
 .php
 .html
 .txt
+.md
+.blend
 .htm
 .aspx
 .asp
