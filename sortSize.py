@@ -3,17 +3,12 @@
 import os
 import time
 import argparse
-from colorama import init as colorama_init
-from colorama import Back
-from colorama import Fore
-from colorama import Style
+from rich import print
 
 # Accept an argument before execution
 parser = argparse.ArgumentParser(description='Sort files based on their file size.')
 parser.add_argument('path', metavar='path', type=str, help='the path to the directory')
 args = parser.parse_args()
-
-colorama_init()
 
 #Get list of all files and directories from the argument
 files = os.listdir(args.path)
@@ -27,9 +22,9 @@ for file in files:
 	index += 1
 	if size < 1024 * 1024: #If size < 1MB
 		size_kb = size / 1024
-		print(f'{Back.BLACK}[{index}] "{file}" - {cTime} |  {Style.BRIGHT}{size_kb:.2f} KB{Style.RESET_ALL}')
+		print(f'[{index}] "{file}" - {cTime} | {size_kb:.2f} KB')
 	elif size < 1024 * 1024 * 1024:
 		size_mb = size /  (1024 * 1024)
-		print(f'{Fore.YELLOW}[{index}] "{file}" - {cTime} |  {Style.BRIGHT}{size_mb:.2f} MB{Style.RESET_ALL}')
+		print(f'[{index}] "{file}" - {cTime} | {size_mb:.2f} MB')
 	else:
-		print(f'{Fore.BLUE}[{index}] "{file}" - {cTime} |  {Style.BRIGHT}{size_gb:.2f} GB{Style.RESET_ALL}')
+		print(f'[{index}] "{file}" - {cTime} | {size_gb:.2f} GB')
