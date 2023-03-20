@@ -17,10 +17,12 @@ args = parser.parse_args()
 files = os.listdir(args.path)
 files.sort(key=lambda x: os.path.getsize(os.path.join(args.path, x)))
 
-def fileSorter():
+def extFileSorter():
 	index = 1;
-	if args.extension is None:
-		console.print('[red]No extension provided')
+	console.print('[green]Extension to filter:', args.extension)
+	time.sleep(1)
+	console.print('Sorting path:', args.path)
+	time.sleep(1)
 	for file in files:
 		cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
 		size = os.path.getsize(os.path.join(args.path, file))
@@ -40,5 +42,33 @@ def fileSorter():
 			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB')
 			index += 1
 
-fileSorter()
+def fileSorter():
+	index = 1;
+	console.print('[red]No extension provided')
+	time.sleep(1)
+	console.print('Sorting path:', args.path)
+	time.sleep(1)
+	for file in files:
+		cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
+		size = os.path.getsize(os.path.join(args.path, file))
+		if size == 0:  # Excludes files or folders showing 0KB from showing
+			continue;
+		elif size < 1024 * 1024: #If size < 1MB
+			size_kb = size / 1024
+			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB')
+			index += 1
+		elif size < 1024 * 1024 * 1024:
+			size_mb = size /  (1024 * 1024)
+			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB')
+			index += 1
+		else:
+			size_gb = size / (1024 * 1024 * 1024)
+			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB')
+			index += 1
+
+if args.extension is None:
+	fileSorter()
+else:
+	extFileSorter()
+	
 console.print("[green bold]Done sorting :smile:")
