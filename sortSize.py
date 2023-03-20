@@ -17,6 +17,27 @@ args = parser.parse_args()
 files = os.listdir(args.path)
 files.sort(key=lambda x: os.path.getsize(os.path.join(args.path, x)))
 
+# Ask user for sort order. If an input other than A or D is given, order will default to ascending
+def userInput():
+	console.print("[yellow]Press A for Ascending Order, or D for Descending Order")
+	global input 
+	input = str(input(""))
+	orderInput()
+
+def orderInput(): 
+	if input.lower() in ('a', 'ascending', 'asc'): #Although program asks for 'A' or 'D', input's less strict
+		console.print("[cyan bold]The files will be sorted in ascending order")
+		time.sleep(1)
+		return
+	if input.lower() in ('d', 'descending', 'desc'):
+		console.print("[cyan bold]The files will be sorted in descending order")
+		time.sleep(1)
+		files.reverse();
+		return
+	else:
+		console.print("[red]Input Unknown. Defaulting to ascending")
+		time.sleep(1)
+
 #Checks if --extension is a known file extension from filename_extensions.txt before continuing on. Otherwise, quit the program
 def ext_checker():
 	with open("filename_extensions.txt", 'r') as f:
@@ -53,13 +74,16 @@ def fileConverter():
 		cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
 		size = os.path.getsize(os.path.join(args.path, file))
 		ext = os.path.splitext(file)
-		if size == 0:  # Excludes files or folders showing 0KB from showing
+		if size == 0:  # Excludes files or folders showing 0KB
 			continue
 		if args.extension != None and args.extension != ext[1]: # If extension was provided, filter by given --extension only
 			continue
 		if size < 1024 * 1024: #If size < 1MB
 			size_kb = size / 1024
-			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
+			if file in ext: #Dims any 'folders' found during the sort operation
+				console.print(f'[{index}] [dim white]Folder Name: "{file}"[/dim white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
+			else:
+				console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
 			index += 1
 			counter += 1
 		elif size < 1024 * 1024 * 1024: #If size <1GB and >1MB
@@ -80,6 +104,7 @@ def fileConverter():
 		console.print("[green bold]Done sorting :smile:")
 		quit()
 
+userInput()
 if args.extension is None:
 	fileSorter()
 else:

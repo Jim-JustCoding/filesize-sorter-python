@@ -1,6 +1,8 @@
 # File Sorter
 
-This Python program sorts all the files in a given directory by **ascending file size.**
+This Python program sorts all the files in a given directory by either **ascending file size** or **descending order.**
+
+The program will sort all the files in ascending order by default. You may enter `descending`, or `d` when prompted to sort in descending order.
 
 You may optionally enter in an extension with the `--extension` argument to only show files with the given extension.
 
