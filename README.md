@@ -31,8 +31,8 @@ sortSize.py [--extension] [path]
 
 - Possible features to add:
 
-  - *Files names in print output can be clicked on to open its file using your default program*
-  - *Remove `[path]` argument, instead opening a folder dialog window to select a directory. More user friendly.*
-  - *Return a message if given a proper file extension but found zero files with the extension.*
+- :black_square_button: *Files names in print output can be clicked on to open its file using your default program*
+- :black_square_button: *Remove `[path]` argument, instead opening a folder dialog window to select a directory. More user friendly.*
+- :white_check_mark: *Return a message if given a proper file extension but found zero files with the extension.*
 
 I've honestly have no idea why I even made this. Sudden inspiration, I guess.

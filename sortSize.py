@@ -34,56 +34,51 @@ def ext_checker():
 				
 #Filter by given --extension only. 
 def extFileSorter():
-	index = 1;
 	console.print('[green]Extension to filter:', args.extension)
 	time.sleep(1)
+	fileConverter()
+
+#Sorts every file in given directory
+def fileSorter():
+	console.print('[red]No extension provided')
+	time.sleep(1)
+	fileConverter()
+
+def fileConverter():
+	index = 1
+	counter = 0
 	console.print('Sorting path:', args.path)
 	time.sleep(1)
 	for file in files:
 		cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
 		size = os.path.getsize(os.path.join(args.path, file))
 		ext = os.path.splitext(file)
-		if size == 0 or args.extension != ext[1]:  # Excludes files or folders showing 0KB from showing
-			continue;
-		elif size < 1024 * 1024: #If size < 1MB
-			size_kb = size / 1024
-			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
-			index += 1
-		elif size < 1024 * 1024 * 1024:
-			size_mb = size /  (1024 * 1024)
-			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB', '\n')
-			index += 1
-		else:
-			size_gb = size / (1024 * 1024 * 1024)
-			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB', '\n')
-			index += 1
-	console.print("[green bold]Done sorting :smile:")
-
-#Sorts every file in given directory
-def fileSorter():
-	index = 1;
-	console.print('[red]No extension provided')
-	time.sleep(1)
-	console.print('Sorting path:', args.path)
-	time.sleep(1)
-	for file in files:
-		cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
-		size = os.path.getsize(os.path.join(args.path, file))
 		if size == 0:  # Excludes files or folders showing 0KB from showing
-			continue;
-		elif size < 1024 * 1024: #If size < 1MB
+			continue
+		if args.extension != None and args.extension != ext[1]: # If extension was provided, filter by given --extension only
+			continue
+		if size < 1024 * 1024: #If size < 1MB
 			size_kb = size / 1024
 			console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
 			index += 1
-		elif size < 1024 * 1024 * 1024:
+			counter += 1
+		elif size < 1024 * 1024 * 1024: #If size <1GB and >1MB
 			size_mb = size /  (1024 * 1024)
 			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB', '\n')
 			index += 1
-		else:
+			counter += 1
+		else: # Size > 1GB
 			size_gb = size / (1024 * 1024 * 1024)
 			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB', '\n')
 			index += 1
-	console.print("[green bold]Done sorting :smile:")
+			counter += 1
+	if counter == 0:
+		console.print("[red bold]There are either no files in this directory, or no files were found with your given extension.")
+		quit()
+	else:
+		console.print("[white on green]Files found:", counter)
+		console.print("[green bold]Done sorting :smile:")
+		quit()
 
 if args.extension is None:
 	fileSorter()
