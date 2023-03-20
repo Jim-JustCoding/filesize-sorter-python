@@ -4,6 +4,8 @@ import os
 import time
 import argparse
 from rich import print
+from rich.style import Style
+from console import console
 
 # Accept an argument before execution
 parser = argparse.ArgumentParser(description='Sort files based on their file size.')
@@ -14,17 +16,25 @@ args = parser.parse_args()
 files = os.listdir(args.path)
 files.sort(key=lambda x: os.path.getsize(os.path.join(args.path, x)))
 
+gb_style = Style(color="red", bold=True)
+
 index = 0;
 for file in files:
 	cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
 	size = os.path.getsize(os.path.join(args.path, file))
 	size_gb = size / (1024 * 1024 * 1024)
-	index += 1
-	if size < 1024 * 1024: #If size < 1MB
+	if size == 0: # Excludes files or folders showing 0KB from showing
+		continue;
+	elif size < 1024 * 1024: #If size < 1MB
 		size_kb = size / 1024
-		print(f'[{index}] "{file}" - {cTime} | {size_kb:.2f} KB')
+		console.print(f'[{index}] [white]"{file}"[/white] - {cTime} | [white underline bold]{size_kb:.2f} KB')
+		index += 1
 	elif size < 1024 * 1024 * 1024:
 		size_mb = size /  (1024 * 1024)
-		print(f'[{index}] "{file}" - {cTime} | {size_mb:.2f} MB')
+		console.print(f'[{index}] [yellow]"{file}"[/yellow] - {cTime} | [yellow underline bold]{size_mb:.2f} MB')
+		index += 1
 	else:
-		print(f'[{index}] "{file}" - {cTime} | {size_gb:.2f} GB')
+		console.print(f'[{index}] [blue]"{file}"[/blue] - {cTime} | [blue underline bold]{size_gb:.2f} GB')
+		index += 1
+
+console.print("[green bold]Done sorting :smile:")
