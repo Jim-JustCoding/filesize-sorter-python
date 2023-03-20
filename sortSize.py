@@ -17,6 +17,7 @@ args = parser.parse_args()
 files = os.listdir(args.path)
 files.sort(key=lambda x: os.path.getsize(os.path.join(args.path, x)))
 
+#Checks if --extension is a known file extension from filename_extensions.txt before continuing on. Otherwise, quit the program
 def ext_checker():
 	with open("filename_extensions.txt", 'r') as f:
 		lines = f.read().splitlines()
@@ -31,7 +32,7 @@ def ext_checker():
 			console.print("[red bold]The", args.extension, "[red bold]Extension does not exist. Closing program...")
 			quit()
 				
-
+#Filter by given --extension only. 
 def extFileSorter():
 	index = 1;
 	console.print('[green]Extension to filter:', args.extension)
@@ -58,6 +59,7 @@ def extFileSorter():
 			index += 1
 	console.print("[green bold]Done sorting :smile:")
 
+#Sorts every file in given directory
 def fileSorter():
 	index = 1;
 	console.print('[red]No extension provided')
