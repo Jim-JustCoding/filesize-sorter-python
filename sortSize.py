@@ -17,6 +17,16 @@ args = parser.parse_args()
 files = os.listdir(args.path)
 files.sort(key=lambda x: os.path.getsize(os.path.join(args.path, x)))
 
+def file_to_array():
+	with open("filename_extensions.txt", 'r') as f:
+		lines = f.read().splitlines()
+		for l in lines:
+			if l == args.extension:
+				print('Found extension')
+				break
+			else:
+				continue
+
 def extFileSorter():
 	index = 1;
 	console.print('[green]Extension to filter:', args.extension)
@@ -66,9 +76,10 @@ def fileSorter():
 			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB')
 			index += 1
 
-if args.extension is None:
-	fileSorter()
-else:
-	extFileSorter()
-	
+# if args.extension is None:
+# 	fileSorter()
+# else:
+# 	extFileSorter()
+
+file_to_array()
 console.print("[green bold]Done sorting :smile:")
