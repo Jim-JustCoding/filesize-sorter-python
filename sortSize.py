@@ -83,37 +83,30 @@ def fileConverter():
 		if size < 1024 * 1024: #If size < 1MB
 			size_kb = calcSize(size)
 			if file in ext: #Dims any 'folders' found during the sort operation
-				console.print(f'[{index}] [dim white]Folder Name: "{file}"[/dim white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
+				console.print(f'[{index}] [dim white]Folder Name: "{file}"[/dim white] - Date Created: {cTime} | Size: [white underline bold]{size_kb}', '\n')
 			else:
-				console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
+				console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb}', '\n')
 			index += 1
 			counter += 1
-			total_size += size
 		elif size < 1024 * 1024 * 1024: #If size <1GB and >1MB
 			size_mb = calcSize(size)
-			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB', '\n')
+			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb}', '\n')
 			index += 1
 			counter += 1
 			total_size += size
 		else: # Size > 1GB
 			size_gb = calcSize(size)
-			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB', '\n')
+			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb}', '\n')
 			index += 1
 			counter += 1
-			total_size += size
+		total_size += size
 	if counter == 0:
 		console.print("[red bold]There are either no files in this directory, or no files were found with your given extension.")
 		quit()
 	else:
 		console.print("[white on green]Files found:", counter)
 		console.print("[green bold]Done sorting :smile:")
-		if total_size < 1048576:
-			xB = 'KB'
-		if total_size < 1073741824:
-			xB = 'MB'
-		else:
-			xB = 'GB'
-		console.print("Total Files:", round(calcSize(total_size)), xB)
+		console.print("Total Files:", calcSize(total_size))
 		quit()
 
 userInput()

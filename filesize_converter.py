@@ -10,8 +10,11 @@ def calcGB(b):
 
 def calcSize(bytes):
     if bytes < 1048576:
-        return calcKB(bytes)
+        result = str(round(calcKB(bytes), 2)) + ' KB'
+        return result
     if bytes < 1073741824:
-        return calcMB(bytes)
+        result = str(round(calcMB(bytes), 2)) + ' MB'
+        return result
     else:
-        return calcGB(bytes)
+        result = str(round(calcGB(bytes), 2)) + ' GB'
+        return result
