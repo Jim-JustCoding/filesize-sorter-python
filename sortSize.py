@@ -107,6 +107,8 @@ def fileConverter():
 		console.print("[green bold]Done sorting :smile:")
 		console.print("Total Files:", calcSize(total_size))
 		console.print(total_size, "bytes")
+		if (total_size > 5368709120):
+			console.print("Uh oh. Might wanna do some housekeeping with your files, there")
 		quit()
 
 userInput()
