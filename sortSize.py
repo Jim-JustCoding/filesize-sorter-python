@@ -93,7 +93,6 @@ def fileConverter():
 			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb}', '\n')
 			index += 1
 			counter += 1
-			total_size += size
 		else: # Size > 1GB
 			size_gb = calcSize(size)
 			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb}', '\n')
@@ -107,6 +106,7 @@ def fileConverter():
 		console.print("[white on green]Files found:", counter)
 		console.print("[green bold]Done sorting :smile:")
 		console.print("Total Files:", calcSize(total_size))
+		console.print(total_size, "bytes")
 		quit()
 
 userInput()

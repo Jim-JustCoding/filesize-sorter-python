@@ -1,20 +1,16 @@
 # b = bytes
 def calcKB(b):
-    return b / 1024
+    return round(b / 1024, 2)
 
 def calcMB(b):
-    return b / 1048576
+    return round(b / 1048576, 2)
 
 def calcGB(b):
-    return b / 1073741824
+    return round(b / 1073741824, 2)
+
 
 def calcSize(bytes):
-    if bytes < 1048576:
-        result = str(round(calcKB(bytes), 2)) + ' KB'
-        return result
-    if bytes < 1073741824:
-        result = str(round(calcMB(bytes), 2)) + ' MB'
-        return result
-    else:
-        result = str(round(calcGB(bytes), 2)) + ' GB'
-        return result
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if bytes < 1024:
+            return "%3.2f %s" % (bytes, x)
+        bytes /= 1024.0
