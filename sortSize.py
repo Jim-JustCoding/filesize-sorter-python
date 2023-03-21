@@ -3,6 +3,7 @@
 import os
 import time
 import argparse
+from filesize_converter import *
 from rich import print
 from rich.style import Style
 from console import console
@@ -70,6 +71,7 @@ def fileConverter():
 	counter = 0
 	console.print('Sorting path:', args.path)
 	time.sleep(1)
+	total_size = 0
 	for file in files:
 		cTime = time.strftime('%I:%M:%S %p, %d/%m/%Y',time.localtime(os.path.getctime(os.path.join(args.path, file))))
 		size = os.path.getsize(os.path.join(args.path, file))
@@ -79,29 +81,39 @@ def fileConverter():
 		if args.extension != None and args.extension != ext[1]: # If extension was provided, filter by given --extension only
 			continue
 		if size < 1024 * 1024: #If size < 1MB
-			size_kb = size / 1024
+			size_kb = calcSize(size)
 			if file in ext: #Dims any 'folders' found during the sort operation
 				console.print(f'[{index}] [dim white]Folder Name: "{file}"[/dim white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
 			else:
 				console.print(f'[{index}] File Name: [white]"{file}"[/white] - Date Created: {cTime} | Size: [white underline bold]{size_kb:.2f} KB', '\n')
 			index += 1
 			counter += 1
+			total_size += size
 		elif size < 1024 * 1024 * 1024: #If size <1GB and >1MB
-			size_mb = size /  (1024 * 1024)
+			size_mb = calcSize(size)
 			console.print(f'[{index}] File Name: [yellow]"{file}"[/yellow] - Date Created: {cTime} | Size: [yellow underline bold]{size_mb:.2f} MB', '\n')
 			index += 1
 			counter += 1
+			total_size += size
 		else: # Size > 1GB
-			size_gb = size / (1024 * 1024 * 1024)
+			size_gb = calcSize(size)
 			console.print(f'[{index}] File Name: [blue]"{file}"[/blue] - Date Created: {cTime} | Size: [blue underline bold]{size_gb:.2f} GB', '\n')
 			index += 1
 			counter += 1
+			total_size += size
 	if counter == 0:
 		console.print("[red bold]There are either no files in this directory, or no files were found with your given extension.")
 		quit()
 	else:
 		console.print("[white on green]Files found:", counter)
 		console.print("[green bold]Done sorting :smile:")
+		if total_size < 1048576:
+			xB = 'KB'
+		if total_size < 1073741824:
+			xB = 'MB'
+		else:
+			xB = 'GB'
+		console.print("Total Files:", round(calcSize(total_size)), xB)
 		quit()
 
 userInput()
